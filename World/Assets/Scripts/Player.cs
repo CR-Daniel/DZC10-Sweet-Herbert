@@ -22,11 +22,29 @@ public class Player : MonoBehaviour
                 triggeringNPC.GetComponent<NpcController>().alive = false;
                 triggeringNPC.GetComponent<Animator>().SetBool("Death_01", true);
             }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                triggering = false;
+                triggeringNPC.GetComponent<NpcController>().alive = false;
+                triggeringNPC.GetComponent<Animator>().SetBool("Death_02", true);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                triggering = false;
+                triggeringNPC.GetComponent<NpcController>().alive = false;
+                triggeringNPC.GetComponent<Animator>().SetBool("Death_03", true);
+            }
         }
 
         else
         {
             npcIcon.SetActive(false);
+
+            if (Input.GetKeyDown(KeyCode.E) && triggeringNPC.GetComponent<NpcController>().alive == false){
+                triggeringNPC.SetActive(false);
+            }
         }
     }
 
