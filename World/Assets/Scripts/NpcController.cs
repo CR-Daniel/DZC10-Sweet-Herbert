@@ -18,8 +18,14 @@ public class NpcController : MonoBehaviour
     private int index = 0;
     public bool alive = true;
 
+    private Vector3 ogPosition;
+    private Quaternion ogRotation;
+
     void Start()
     {
+        ogPosition = transform.position;
+        ogRotation = transform.rotation;
+
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
 
@@ -35,6 +41,12 @@ public class NpcController : MonoBehaviour
         if (!alive)
         {
             agent.isStopped = true;
+
+            // if distance between NPC and PLAYER > 50
+            if (Vector3.Distance(transform.position, GameObject.Find("RedCar").transform.position) > 20f)
+            {
+                respawn();
+            }
         }
         else if (!Player.triggering)
         {
@@ -80,5 +92,24 @@ public class NpcController : MonoBehaviour
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+    }
+
+    private void respawn()
+    {
+        animator.SetBool("Death_01", false);
+        animator.SetBool("Death_02", false);
+        animator.SetBool("Death_03", false);
+        animator.SetBool("respawn", true);
+
+        alive = true;
+        
+        GameObject.Find("Ch03").GetComponent<SkinnedMeshRenderer>().enabled = true;
+
+        agent.isStopped = false;
+
+        transform.position = ogPosition;
+        transform.rotation = ogRotation;
+
+        //animator.SetBool("respawn", false);
     }
 }

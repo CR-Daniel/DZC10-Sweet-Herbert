@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
+                triggeringNPC.GetComponent<Animator>().SetBool("respawn", false);
                 triggering = false;
                 triggeringNPC.GetComponent<Animator>().SetBool("waving", false);
                 triggeringNPC.GetComponent<NpcController>().alive = false;
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
+                triggeringNPC.GetComponent<Animator>().SetBool("respawn", false);
                 triggering = false;
                 triggeringNPC.GetComponent<Animator>().SetBool("waving", false);
                 triggeringNPC.GetComponent<NpcController>().alive = false;
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
+                triggeringNPC.GetComponent<Animator>().SetBool("respawn", false);
                 triggering = false;
                 triggeringNPC.GetComponent<Animator>().SetBool("waving", false);
                 triggeringNPC.GetComponent<NpcController>().alive = false;
@@ -49,7 +52,7 @@ public class Player : MonoBehaviour
             npcIcon.SetActive(false);
 
             if (Input.GetKeyDown(KeyCode.E) && triggeringNPC != null && triggeringNPC.GetComponent<NpcController>().alive == false){
-                triggeringNPC.SetActive(false);
+                GameObject.Find("Ch03").GetComponent<SkinnedMeshRenderer>().enabled = false;
             }
         }
     }
