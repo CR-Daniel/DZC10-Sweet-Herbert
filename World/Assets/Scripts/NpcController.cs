@@ -46,12 +46,13 @@ public class NpcController : MonoBehaviour
         {
             // Stop Motion
             agent.isStopped = true;
+
+            // Idle
             animator.SetFloat("vertical", 0);
 
             // Rotate Agent towards Player
             player = GameObject.Find("RedCar");
             RotateTowards(player.transform);
-
         }
     }
 

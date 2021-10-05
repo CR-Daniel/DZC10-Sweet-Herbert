@@ -16,9 +16,13 @@ public class Player : MonoBehaviour
             npcIcon.SetActive(true);
             npcIcon.transform.Rotate(Vector3.up, 50f * Time.deltaTime);
 
+            // wave
+            triggeringNPC.GetComponent<Animator>().SetBool("waving", true);
+
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 triggering = false;
+                triggeringNPC.GetComponent<Animator>().SetBool("waving", false);
                 triggeringNPC.GetComponent<NpcController>().alive = false;
                 triggeringNPC.GetComponent<Animator>().SetBool("Death_01", true);
             }
@@ -26,6 +30,7 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 triggering = false;
+                triggeringNPC.GetComponent<Animator>().SetBool("waving", false);
                 triggeringNPC.GetComponent<NpcController>().alive = false;
                 triggeringNPC.GetComponent<Animator>().SetBool("Death_02", true);
             }
@@ -33,6 +38,7 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 triggering = false;
+                triggeringNPC.GetComponent<Animator>().SetBool("waving", false);
                 triggeringNPC.GetComponent<NpcController>().alive = false;
                 triggeringNPC.GetComponent<Animator>().SetBool("Death_03", true);
             }
@@ -42,7 +48,7 @@ public class Player : MonoBehaviour
         {
             npcIcon.SetActive(false);
 
-            if (Input.GetKeyDown(KeyCode.E) && triggeringNPC.GetComponent<NpcController>().alive == false){
+            if (Input.GetKeyDown(KeyCode.E) && triggeringNPC != null && triggeringNPC.GetComponent<NpcController>().alive == false){
                 triggeringNPC.SetActive(false);
             }
         }
