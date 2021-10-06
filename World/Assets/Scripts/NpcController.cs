@@ -21,8 +21,12 @@ public class NpcController : MonoBehaviour
     private Vector3 ogPosition;
     private Quaternion ogRotation;
 
+    private GameObject iceCream;
+
     void Start()
     {
+        iceCream = GameObject.Find(gameObject.name + "/iceCream");
+
         ogPosition = transform.position;
         ogRotation = transform.rotation;
 
@@ -41,6 +45,7 @@ public class NpcController : MonoBehaviour
         if (!alive)
         {
             agent.isStopped = true;
+            iceCream.SetActive(false);
 
             // if distance between NPC and PLAYER > 50
             if (Vector3.Distance(transform.position, GameObject.Find("RedCar").transform.position) > 20f)
@@ -58,6 +63,10 @@ public class NpcController : MonoBehaviour
         {
             // Stop Motion
             agent.isStopped = true;
+
+            // IceCream Icon + Spin
+            iceCream.SetActive(true);
+            iceCream.transform.Rotate(Vector3.up, 50f * Time.deltaTime);
 
             // Idle
             animator.SetFloat("vertical", 0);
@@ -86,7 +95,6 @@ public class NpcController : MonoBehaviour
         animator.SetFloat("vertical", !agent.isStopped ? 1 : 0);
     }
 
-    // https://answers.unity.com/questions/540120/how-do-you-update-navmesh-rotation-after-stopping.html
     private void RotateTowards(Transform target)
     {
         Vector3 direction = (target.position - transform.position).normalized;
@@ -96,20 +104,21 @@ public class NpcController : MonoBehaviour
 
     private void respawn()
     {
+        // prevent immediate transition to death animation
         animator.SetBool("Death_01", false);
         animator.SetBool("Death_02", false);
         animator.SetBool("Death_03", false);
-        animator.SetBool("respawn", true);
 
         alive = true;
-        
-        GameObject.Find("Ch03").GetComponent<SkinnedMeshRenderer>().enabled = true;
-
         agent.isStopped = false;
 
         transform.position = ogPosition;
         transform.rotation = ogRotation;
 
-        //animator.SetBool("respawn", false);
+        // Put NPC back in Walking Animation
+        animator.SetBool("respawn", true);
+
+        // Make NPC Visible
+        GameObject.Find("Ch03").GetComponent<SkinnedMeshRenderer>().enabled = true;
     }
 }

@@ -4,53 +4,38 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public GameObject triggeringNPC;
+    private GameObject triggeringNPC;
     public static bool triggering;
-    public GameObject npcIcon;
+
+    private NpcController controllerNPC;
+    private Animator animatorNPC;
 
     void Update()
     {
 
         if (triggering)
-        {
-            npcIcon.SetActive(true);
-            npcIcon.transform.Rotate(Vector3.up, 50f * Time.deltaTime);
-
-            // wave
+        {            
+            // Wave
             triggeringNPC.GetComponent<Animator>().SetBool("waving", true);
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                triggeringNPC.GetComponent<Animator>().SetBool("respawn", false);
-                triggering = false;
-                triggeringNPC.GetComponent<Animator>().SetBool("waving", false);
-                triggeringNPC.GetComponent<NpcController>().alive = false;
-                triggeringNPC.GetComponent<Animator>().SetBool("Death_01", true);
+                deathProtocol("Death_01");
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                triggeringNPC.GetComponent<Animator>().SetBool("respawn", false);
-                triggering = false;
-                triggeringNPC.GetComponent<Animator>().SetBool("waving", false);
-                triggeringNPC.GetComponent<NpcController>().alive = false;
-                triggeringNPC.GetComponent<Animator>().SetBool("Death_02", true);
+                deathProtocol("Death_02");
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                triggeringNPC.GetComponent<Animator>().SetBool("respawn", false);
-                triggering = false;
-                triggeringNPC.GetComponent<Animator>().SetBool("waving", false);
-                triggeringNPC.GetComponent<NpcController>().alive = false;
-                triggeringNPC.GetComponent<Animator>().SetBool("Death_03", true);
+                deathProtocol("Death_03");
             }
         }
 
         else
         {
-            npcIcon.SetActive(false);
-
             if (Input.GetKeyDown(KeyCode.E) && triggeringNPC != null && triggeringNPC.GetComponent<NpcController>().alive == false){
                 GameObject.Find("Ch03").GetComponent<SkinnedMeshRenderer>().enabled = false;
             }
@@ -73,5 +58,24 @@ public class Player : MonoBehaviour
             triggering = false;
             triggeringNPC = null;
         }
+    }
+
+    private void deathProtocol(string death)
+    {
+        // Get All Required Components
+        animatorNPC   = triggeringNPC.GetComponent<Animator>();
+        controllerNPC = triggeringNPC.GetComponent<NpcController>();
+
+        // Stop Wave Animation
+        animatorNPC.SetBool("waving", false);
+
+        // Prevent immediate transition to walk animation
+        animatorNPC.SetBool("respawn", false);
+
+        // Transition to death animation
+        animatorNPC.SetBool(death, true);
+        
+        triggering = false;
+        controllerNPC.alive = false;
     }
 }
