@@ -26,10 +26,7 @@ public class NpcController : MonoBehaviour
     void Start()
     {
         iceCream = GameObject.Find(gameObject.name + "/iceCream");
-<<<<<<< HEAD
         iceCream.SetActive(false);
-=======
->>>>>>> bfba4ad654dea72b7f87a81b9ad5b3f13f2d08db
 
         ogPosition = transform.position;
         ogRotation = transform.rotation;
@@ -46,23 +43,13 @@ public class NpcController : MonoBehaviour
 
     void Update()
     {
-<<<<<<< HEAD
-        // Get Player By Tag
-        player =  GameObject.FindWithTag("Player");
-
-=======
->>>>>>> bfba4ad654dea72b7f87a81b9ad5b3f13f2d08db
         if (!alive)
         {
             agent.isStopped = true;
             iceCream.SetActive(false);
 
             // if distance between NPC and PLAYER > 50
-<<<<<<< HEAD
-            if (Vector3.Distance(transform.position, player.transform.position) > 20f)
-=======
             if (Vector3.Distance(transform.position, GameObject.Find("RedCar").transform.position) > 20f)
->>>>>>> bfba4ad654dea72b7f87a81b9ad5b3f13f2d08db
             {
                 respawn();
             }
@@ -86,10 +73,7 @@ public class NpcController : MonoBehaviour
             animator.SetFloat("vertical", 0);
 
             // Rotate Agent towards Player
-<<<<<<< HEAD
-=======
             player = GameObject.Find("RedCar");
->>>>>>> bfba4ad654dea72b7f87a81b9ad5b3f13f2d08db
             RotateTowards(player.transform);
         }
     }
