@@ -57,7 +57,7 @@ public class NpcController : MonoBehaviour
                 respawn();
             }
         }
-        else if (!Player.triggering) // Player.triggeringNPC != null && Player.trigeringNPC == gameObject // write this instead
+        else if (!GameObject.ReferenceEquals(gameObject, Player.triggeringNPC))
         {
             // Keep Ice Cream Hidden
             iceCream.SetActive(false);

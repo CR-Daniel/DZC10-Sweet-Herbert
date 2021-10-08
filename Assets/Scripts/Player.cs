@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private GameObject triggeringNPC;
+    public static GameObject triggeringNPC;
     public static bool triggering;
 
     private NpcController controllerNPC;
