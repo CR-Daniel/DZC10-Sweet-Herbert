@@ -43,19 +43,25 @@ public class NpcController : MonoBehaviour
 
     void Update()
     {
+        // Get Player By Tag
+        player =  GameObject.FindWithTag("Player");
+
         if (!alive)
         {
             agent.isStopped = true;
             iceCream.SetActive(false);
 
             // if distance between NPC and PLAYER > 50
-            if (Vector3.Distance(transform.position, GameObject.Find("RedCar").transform.position) > 20f)
+            if (Vector3.Distance(transform.position, player.transform.position) > 20f)
             {
                 respawn();
             }
         }
-        else if (!Player.triggering)
+        else if (!Player.triggering) // Player.triggeringNPC != null && Player.trigeringNPC == gameObject // write this instead
         {
+            // Keep Ice Cream Hidden
+            iceCream.SetActive(false);
+
             // Allow Motion
             agent.isStopped = false;
             roam();
@@ -73,7 +79,6 @@ public class NpcController : MonoBehaviour
             animator.SetFloat("vertical", 0);
 
             // Rotate Agent towards Player
-            player = GameObject.Find("RedCar");
             RotateTowards(player.transform);
         }
     }

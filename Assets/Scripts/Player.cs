@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
 
         else
         {
+            // Collect Body
             if (Input.GetKeyDown(KeyCode.E) && triggeringNPC != null && triggeringNPC.GetComponent<NpcController>().alive == false){
                 GameObject.Find("Ch03").GetComponent<SkinnedMeshRenderer>().enabled = false;
             }
@@ -55,6 +56,12 @@ public class Player : MonoBehaviour
     {
         if (collider.gameObject.tag == "NPC")
         {
+            // Stop Wave Animation
+            if (triggeringNPC != null)
+            {
+                triggeringNPC.GetComponent<Animator>().SetBool("waving", false);
+            }
+
             triggering = false;
             triggeringNPC = null;
         }
