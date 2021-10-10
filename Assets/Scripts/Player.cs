@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public static GameObject triggeringNPC;
+    public static IDictionary<string, GameObject> triggeringNPC = new Dictionary<string, GameObject>();
     public static bool triggering;
 
     private NpcController controllerNPC;
@@ -12,33 +12,37 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-
-        if (triggering)
-        {            
-            // Wave
-            triggeringNPC.GetComponent<Animator>().SetBool("waving", true);
-
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                deathProtocol("Death_01");
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                deathProtocol("Death_02");
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                deathProtocol("Death_03");
-            }
-        }
-
-        else
+        if (triggeringNPC != null)
         {
-            // Collect Body
-            if (Input.GetKeyDown(KeyCode.E) && triggeringNPC != null && triggeringNPC.GetComponent<NpcController>().alive == false){
-                GameObject.Find("Ch03").GetComponent<SkinnedMeshRenderer>().enabled = false;
+            foreach(KeyValuePair<string, GameObject> entry in triggeringNPC)
+            {
+                // do something with entry.Value or entry.Key
+
+                if (triggering)
+                {            
+                    // Wave
+                    entry.Value.GetComponent<Animator>().SetBool("waving", true);
+
+                    if (Input.GetKeyDown(KeyCode.Alpha1))
+                    {
+                        deathProtocol("Death_01", entry.Key);
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.Alpha2))
+                    {
+                        deathProtocol("Death_02", entry.Key);
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.Alpha3))
+                    {
+                        deathProtocol("Death_03", entry.Key);
+                    }
+
+                    // Collect Body 
+                    if (Input.GetKeyDown(KeyCode.E) && entry.Value.GetComponent<NpcController>().alive == false){
+                        GameObject.Find(entry.Key + "/Ch03").GetComponent<SkinnedMeshRenderer>().enabled = false; // TODO: adapt to get all Ch03!!
+                    }
+                }
             }
         }
     }
@@ -48,7 +52,12 @@ public class Player : MonoBehaviour
         if (collider.gameObject.tag == "NPC")
         {
             triggering = true;
-            triggeringNPC = collider.gameObject;
+
+            // if NPC not in list yet, add it
+            if (!triggeringNPC.ContainsKey(collider.gameObject.name))
+            {
+                triggeringNPC.Add(collider.gameObject.name, collider.gameObject);
+            }
         }
     }
 
@@ -57,21 +66,21 @@ public class Player : MonoBehaviour
         if (collider.gameObject.tag == "NPC")
         {
             // Stop Wave Animation
-            if (triggeringNPC != null)
+            if (triggeringNPC.ContainsKey(collider.gameObject.name))
             {
-                triggeringNPC.GetComponent<Animator>().SetBool("waving", false);
+                triggeringNPC[collider.gameObject.name].GetComponent<Animator>().SetBool("waving", false);
             }
 
             triggering = false;
-            triggeringNPC = null;
+            triggeringNPC.Remove(collider.gameObject.name);
         }
     }
 
-    private void deathProtocol(string death)
+    private void deathProtocol(string death, string NPC)
     {
         // Get All Required Components
-        animatorNPC   = triggeringNPC.GetComponent<Animator>();
-        controllerNPC = triggeringNPC.GetComponent<NpcController>();
+        animatorNPC   = triggeringNPC[NPC].GetComponent<Animator>();
+        controllerNPC = triggeringNPC[NPC].GetComponent<NpcController>();
 
         // Stop Wave Animation
         animatorNPC.SetBool("waving", false);
@@ -82,7 +91,7 @@ public class Player : MonoBehaviour
         // Transition to death animation
         animatorNPC.SetBool(death, true);
         
-        triggering = false;
+        //triggering = false;
         controllerNPC.alive = false;
     }
 }
