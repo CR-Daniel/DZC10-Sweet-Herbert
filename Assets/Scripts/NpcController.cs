@@ -7,6 +7,7 @@ public class NpcController : MonoBehaviour
 {
     private NavMeshAgent agent;
     public Animator animator;
+    private GameObject visual;
 
     public GameObject PATH;
     private GameObject player;
@@ -33,6 +34,7 @@ public class NpcController : MonoBehaviour
 
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        visual = GameObject.Find(gameObject.name + "/visual");
 
         Waypoints = new Transform[PATH.transform.childCount];
         for (int i = 0; i < Waypoints.Length; i++)
@@ -125,6 +127,6 @@ public class NpcController : MonoBehaviour
         animator.SetBool("respawn", true);
 
         // Make NPC Visible
-        GameObject.Find("Ch03").GetComponent<SkinnedMeshRenderer>().enabled = true;
+        visual.SetActive(true);
     }
 }

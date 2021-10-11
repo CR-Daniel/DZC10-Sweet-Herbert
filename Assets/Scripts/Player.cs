@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
 
                     // Collect Body 
                     if (Input.GetKeyDown(KeyCode.E) && entry.Value.GetComponent<NpcController>().alive == false){
-                        GameObject.Find(entry.Key + "/Ch03").GetComponent<SkinnedMeshRenderer>().enabled = false; // TODO: adapt to get all Ch03!!
+                        GameObject.Find(entry.Key + "/visual").SetActive(false);
                     }
                 }
             }
