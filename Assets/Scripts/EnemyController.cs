@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
         IDLE, CHASING
     }
 
-    public GameObject target;
+    public GameObject target, explosion;
     public int initialAggroRange, maintainAggroRange, detonateRange;
 
     private NavMeshAgent agent;
@@ -41,9 +41,8 @@ public class EnemyController : MonoBehaviour
         }
 
         if (distance <= detonateRange) {
-            //TODO explosion
+            SpawnExplosion();
             Destroy(gameObject);
-            Destroy(target);
             return;
         }
 
@@ -60,4 +59,8 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void SpawnExplosion() {
+        var exp = Instantiate(explosion, transform.position + Vector3.up * 5.75f, Quaternion.identity);
+        exp.SetActive(true);
+    }
 }
