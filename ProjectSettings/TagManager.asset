@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - NPC
+  - Spawn Point
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -14,8 +16,8 @@ TagManager:
   - UI
   - Road
   - NPC
-  - 
-  - 
+  - Pavement
+  - Crossing
   - 
   - 
   - 
