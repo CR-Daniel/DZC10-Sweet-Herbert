@@ -13,6 +13,8 @@ public class SoundManager : MonoBehaviour {
 
     private AudioClip[] clipsHurt;
 
+    private AudioClip [] clipsHey;
+
     private void Awake() {
         audioSource = GetComponent<AudioSource>();
     }
@@ -51,18 +53,18 @@ public class SoundManager : MonoBehaviour {
         return clipsHurt[UnityEngine.Random.Range(0, clipsHurt.Length)];
     }
 
-    // private void Hey() {
-    //     AudioClip hey = GetRandomClipHey();
-    //     audioSource.PlayOneShot(hey);
-    // }
+    private void Hey() {
+        AudioClip hey = GetRandomClipHey();
+        audioSource.PlayOneShot(hey);
+    }
 
-    // private AudioClip GetRandomClipHey() {
-    //     clipsHey = new AudioClip[] {
-    //         (AudioClip)Resources.Load("Hey/"),
-    //         (AudioClip)Resources.Load("Hey/"),
-    //         (AudioClip)Resources.Load("Hey/"),
-    //         (AudioClip)Resources.Load("Hey/")
-    //     };
-    //     return clipsHey[UnityEngine.Random.Range(0, clipsHey.Length)];
-    // }
+    private AudioClip GetRandomClipHey() {
+        clipsHey = new AudioClip[] {
+            (AudioClip)Resources.Load("Hey/Lego")
+            // (AudioClip)Resources.Load("Hey/"),
+            // (AudioClip)Resources.Load("Hey/"),
+            // (AudioClip)Resources.Load("Hey/")
+        };
+        return clipsHey[UnityEngine.Random.Range(0, clipsHey.Length)];
+    }
 }
