@@ -6,7 +6,7 @@ using UnityEngine;
 public class SpawnPoint : MonoBehaviour
 {
     public double minDistance = 5.0;
-    public double cooldown = 10;
+    public double cooldown = 40;
     private double lastUsed = double.NegativeInfinity;
 
     public bool CanSpawn(GameObject obj)
