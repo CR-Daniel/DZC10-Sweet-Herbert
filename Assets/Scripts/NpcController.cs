@@ -17,10 +17,12 @@ public class NpcController : MonoBehaviour
     public float rotationSpeed = 10f;
 
     private int index = 0;
+    private float min = 100;
     public bool alive = true;
 
     private Vector3 ogPosition;
     private Quaternion ogRotation;
+    private bool direction;
 
     private GameObject iceCream;
 
@@ -41,6 +43,24 @@ public class NpcController : MonoBehaviour
         {
             Waypoints[i] = PATH.transform.GetChild(i);
         }
+
+        // Set Index to Closest Waypoint
+        for (int i = 0; i < Waypoints.Length; i++)
+        {
+            float dist = Vector3.Distance(transform.position, Waypoints[i].position);
+
+            if (dist < min){
+                min = dist;
+                index = i;
+            }
+        }
+
+        // Up/Down Direction
+        direction = Random.value > 0.5f;
+
+        // Walking Speed (min 2 max 5)
+        GetComponent<NavMeshAgent>().speed = Random.Range(2, 6);;
+        
     }
 
     void Update()
@@ -87,16 +107,27 @@ public class NpcController : MonoBehaviour
 
     private void roam()
     {
-        if (Vector3.Distance(transform.position, Waypoints[index].position) < minDistance)
+        if (direction)
         {
-            if (index + 1 != Waypoints.Length)
+            if (Vector3.Distance(transform.position, Waypoints[index].position) < minDistance)
             {
-                index++;
+                if (index + 1 != Waypoints.Length)
+                {
+                    index++;
+                } else {
+                    index = 0;
+                }      
             }
-            else
+        } else {
+            if (Vector3.Distance(transform.position, Waypoints[index].position) < minDistance)
             {
-                index = 0;
-            }
+                if (index - 1 != -1)
+                {
+                    index--;
+                } else {
+                    index = Waypoints.Length - 1;
+                }      
+            }   
         }
 
         agent.SetDestination(Waypoints[index].position);
