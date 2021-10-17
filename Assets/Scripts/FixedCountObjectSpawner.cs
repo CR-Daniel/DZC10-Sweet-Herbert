@@ -24,7 +24,7 @@ public class FixedCountObjectSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (lastSpawn + globalCooldown < Time.timeAsDouble)
+        if (lastSpawn + globalCooldown > Time.timeAsDouble)
             return;
 
         if (GameObject.FindGameObjectsWithTag(spawnObject.tag).Length < targetCount)
