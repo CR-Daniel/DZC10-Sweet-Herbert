@@ -9,17 +9,33 @@ public class Player : MonoBehaviour
 
     private NpcController controllerNPC;
     private Animator animatorNPC;
+    [SerializeField] private GameObject GameUI;
+    [SerializeField] private GameObject GameOverUI;
+
+    void Start()
+    {
+        GetComponent<Health>().HealthChanged += (oldHealth, newHealth) =>
+        {
+            if (newHealth == 0)
+            {
+                //TODO DEATH
+                Time.timeScale = 0f;
+                GameUI.SetActive(false);
+                GameOverUI.SetActive(true);
+            }
+        };
+    }
 
     void Update()
     {
         if (triggeringNPC != null)
         {
-            foreach(KeyValuePair<string, GameObject> entry in triggeringNPC)
+            foreach (KeyValuePair<string, GameObject> entry in triggeringNPC)
             {
                 // do something with entry.Value or entry.Key
 
                 if (triggering)
-                {            
+                {
                     // Wave
                     entry.Value.GetComponent<Animator>().SetBool("waving", true);
 
@@ -39,7 +55,8 @@ public class Player : MonoBehaviour
                     }
 
                     // Collect Body 
-                    if (Input.GetKeyDown(KeyCode.E) && entry.Value.GetComponent<NpcController>().alive == false){
+                    if (Input.GetKeyDown(KeyCode.E) && entry.Value.GetComponent<NpcController>().alive == false)
+                    {
                         GameObject.Find(entry.Key + "/visual").SetActive(false);
                     }
                 }
@@ -79,7 +96,7 @@ public class Player : MonoBehaviour
     private void deathProtocol(string death, string NPC)
     {
         // Get All Required Components
-        animatorNPC   = triggeringNPC[NPC].GetComponent<Animator>();
+        animatorNPC = triggeringNPC[NPC].GetComponent<Animator>();
         controllerNPC = triggeringNPC[NPC].GetComponent<NpcController>();
 
         // Stop Wave Animation
@@ -90,7 +107,7 @@ public class Player : MonoBehaviour
 
         // Transition to death animation
         animatorNPC.SetBool(death, true);
-        
+
         //triggering = false;
         controllerNPC.alive = false;
     }
