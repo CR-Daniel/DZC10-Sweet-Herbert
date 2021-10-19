@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PauzeMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false; //Can be used for sound change
+    public static bool LargeMap = false;
     public GameObject pauseMenuUI;
 
     // Update is called once per frame

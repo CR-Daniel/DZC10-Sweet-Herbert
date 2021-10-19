@@ -23,7 +23,7 @@ public class Timer : MonoBehaviour
         currentTime -= Time.deltaTime;
 
         string minutes = ((int)currentTime / 60).ToString();
-        string seconds = (currentTime % 60).ToString("f1");
+        string seconds = (currentTime % 60).ToString("f0");
 
         timerText.text = minutes + ":" + seconds;
 
