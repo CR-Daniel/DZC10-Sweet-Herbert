@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public static IDictionary<string, GameObject> triggeringNPC = new Dictionary<string, GameObject>();
     public static bool triggering;
+    public static int score = 0;
 
     private NpcController controllerNPC;
     private Animator animatorNPC;
@@ -113,5 +114,9 @@ public class Player : MonoBehaviour
 
         //triggering = false;
         controllerNPC.alive = false;
+
+        // Add points
+        score += 100;
+
     }
 }
