@@ -11,11 +11,14 @@ public class Player : MonoBehaviour
     private Animator animatorNPC;
     [SerializeField] private GameObject GameUI;
     [SerializeField] private GameObject GameOverUI;
+    [SerializeField] private HealthBar healthBar;
 
     void Start()
     {
         GetComponent<Health>().HealthChanged += (oldHealth, newHealth) =>
         {
+            healthBar.SetDisplayValue(newHealth);
+            
             if (newHealth == 0)
             {
                 //TODO DEATH

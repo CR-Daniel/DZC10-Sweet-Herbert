@@ -13,6 +13,8 @@ public class EnemyController : MonoBehaviour
 
     private NavMeshAgent agent;
 
+    private bool hasDetonated = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,16 +45,14 @@ public class EnemyController : MonoBehaviour
         var detonateTrigger = CreateCollider(detonateRange);
         detonateTrigger.Enter += (collider) =>
         {
-            if (collider.gameObject == target)
+            if (collider.gameObject == target && !hasDetonated)
             {
                 //TODO explosion sound
                 SpawnExplosion();
-                
-                if (target.GetComponent<Health>() != null) {
-                    target.GetComponent<Health>().Damage(1_000_000);
-                }
+                target.GetComponent<Health>()?.Damage(1);
 
                 Destroy(gameObject);
+                hasDetonated = true;
             }
         };
     }
