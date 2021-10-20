@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
 
     public GameObject target, explosion;
     public int initialAggroRange, maintainAggroRange, detonateRange;
+    public ColliderWithCallbacks initialAggroTrigger, maintainAggroTrigger, detonateTrigger;
 
     public GameObject alert;
 
@@ -20,7 +21,10 @@ public class EnemyController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         agent.isStopped = true;
-        var initialAggroTrigger = CreateCollider(initialAggroRange);
+
+        
+        initialAggroTrigger = CreateCollider(initialAggroRange);
+
         initialAggroTrigger.Enter += (collider) =>
         {
             if (collider.gameObject == target)
@@ -31,7 +35,8 @@ public class EnemyController : MonoBehaviour
             }
         };
 
-        var maintainAggroTrigger = CreateCollider(maintainAggroRange);
+        maintainAggroTrigger = CreateCollider(maintainAggroRange);
+
         maintainAggroTrigger.Exit += (collider) =>
         {
             if (collider.gameObject == target)
@@ -42,7 +47,9 @@ public class EnemyController : MonoBehaviour
             }
         };
 
-        var detonateTrigger = CreateCollider(detonateRange);
+        
+        detonateTrigger = CreateCollider(detonateRange);
+
         detonateTrigger.Enter += (collider) =>
         {
             if (collider.gameObject == target && !hasDetonated)
@@ -51,10 +58,24 @@ public class EnemyController : MonoBehaviour
                 SpawnExplosion();
                 target.GetComponent<Health>()?.Damage(1);
 
-                Destroy(gameObject);
+                DestroyObject();
                 hasDetonated = true;
             }
         };
+    }
+
+    void DestroyObject() {
+        Destroy(gameObject);
+
+        initialAggroTrigger.RemoveListeners();
+        maintainAggroTrigger.RemoveListeners();
+        detonateTrigger.RemoveListeners();
+
+        Destroy(initialAggroTrigger);
+        Destroy(maintainAggroTrigger);
+        Destroy(detonateTrigger);
+
+        Destroy(this);
     }
 
     // Update is called once per frame
