@@ -12,9 +12,9 @@ public class ColliderWithCallbacks : MonoBehaviour
 
     void OnTriggerEnter(Collider other) => Enter(other);
 
-    void OnTriggerExit(Collider other) => Enter(other);
+    void OnTriggerExit(Collider other) => Exit(other);
 
-    void OnTriggerStay(Collider other) => Enter(other);
+    void OnTriggerStay(Collider other) => Stay(other);
 
     public void RemoveListeners()
     {
