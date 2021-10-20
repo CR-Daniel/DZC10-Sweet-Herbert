@@ -7,8 +7,11 @@ public class FixedCountObjectSpawner : MonoBehaviour
 {
     public int targetCount;
     public GameObject spawnObject;
+    public double globalCooldown = 20;
 
     private List<SpawnPoint> spawnPoints;
+
+    private double lastSpawn = double.NegativeInfinity;
 
     private System.Random rnd = new System.Random();
 
@@ -21,6 +24,9 @@ public class FixedCountObjectSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (lastSpawn + globalCooldown > Time.timeAsDouble)
+            return;
+
         if (GameObject.FindGameObjectsWithTag(spawnObject.tag).Length < targetCount)
         {
             var valid = spawnPoints.Where(point => point.CanSpawn(spawnObject)).ToList();
@@ -31,6 +37,7 @@ public class FixedCountObjectSpawner : MonoBehaviour
             var chosen = valid[rnd.Next(valid.Count)];
 
             chosen.Spawn(spawnObject);
+            lastSpawn = Time.timeAsDouble;
         }
     }
 

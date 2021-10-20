@@ -5,62 +5,82 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    private enum Mode
-    {
-        IDLE, CHASING
-    }
 
     public GameObject target, explosion;
     public int initialAggroRange, maintainAggroRange, detonateRange;
 
+    public GameObject alert;
+
     private NavMeshAgent agent;
 
-    private Mode currentMode = Mode.IDLE;
+    private bool hasDetonated = false;
 
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.isStopped = true;
+        var initialAggroTrigger = CreateCollider(initialAggroRange);
+        initialAggroTrigger.Enter += (collider) =>
+        {
+            if (collider.gameObject == target)
+            {
+                //TODO spotted effect
+                agent.isStopped = false;
+                alert.SetActive(true);
+            }
+        };
+
+        var maintainAggroTrigger = CreateCollider(maintainAggroRange);
+        maintainAggroTrigger.Exit += (collider) =>
+        {
+            if (collider.gameObject == target)
+            {
+                //TODO lost effect
+                agent.isStopped = true;
+                alert.SetActive(false);
+            }
+        };
+
+        var detonateTrigger = CreateCollider(detonateRange);
+        detonateTrigger.Enter += (collider) =>
+        {
+            if (collider.gameObject == target && !hasDetonated)
+            {
+                //TODO explosion sound
+                SpawnExplosion();
+                target.GetComponent<Health>()?.Damage(1);
+
+                Destroy(gameObject);
+                hasDetonated = true;
+            }
+        };
     }
 
     // Update is called once per frame
     void Update()
     {
-        var distance = Vector3.Distance(transform.position, target.transform.position);
-
-        if (currentMode == Mode.IDLE && distance <= initialAggroRange)
-        {
-            //TODO popup exclamation
-            currentMode = Mode.CHASING;
-        }
-
-        if (currentMode == Mode.CHASING && distance > maintainAggroRange)
-        {
-            //TODO popup question mark
-            currentMode = Mode.IDLE;
-        }
-
-        if (distance <= detonateRange) {
-            SpawnExplosion();
-            Destroy(gameObject);
-            return;
-        }
-
-        UpdateAgent();
+        agent.SetDestination(target.transform.position);
     }
 
-    private void UpdateAgent() {
-        if (currentMode == Mode.IDLE) {
-            //TODO find an idling spot?
-            agent.isStopped = true;
-        } else {
-            agent.SetDestination(target.transform.position);
-            agent.isStopped = false;
-        }
-    }
-
-    private void SpawnExplosion() {
-        var exp = Instantiate(explosion, transform.position + Vector3.up * 5.75f, Quaternion.identity);
+    private void SpawnExplosion()
+    {
+        var exp = Instantiate(explosion, transform.position, Quaternion.identity);
         exp.SetActive(true);
+    }
+
+    private ColliderWithCallbacks CreateCollider(int size)
+    {
+        var mainCollider = GetComponent<BoxCollider>();
+        var obj = new GameObject();
+        obj.transform.SetParent(gameObject.transform, false);
+
+        var collider = obj.AddComponent<BoxCollider>();
+        collider.center = new Vector3(0, mainCollider.center.y, 0);
+        collider.size = new Vector3(size, mainCollider.size.y, size);
+
+        collider.isTrigger = true;
+
+        return obj.AddComponent<ColliderWithCallbacks>();
     }
 }
