@@ -13,6 +13,5 @@
      
      void Update () {
          txt.text = "Score : " + Player.score;
-         Debug.Log(txt.text);
     }
  }
