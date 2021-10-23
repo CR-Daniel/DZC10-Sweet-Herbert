@@ -6,8 +6,11 @@ public class Player : MonoBehaviour
 {
     public static IDictionary<string, GameObject> triggeringNPC = new Dictionary<string, GameObject>();
     public static bool triggering;
-    public static int score = 0;
 
+    public static int score = 0;
+    public static string objective;
+    private List<string> Objectives;
+    
     private NpcController controllerNPC;
     private Animator animatorNPC;
     [SerializeField] private GameObject GameUI;
@@ -16,6 +19,9 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        Objectives = new List<string> { "Businessman", "Doctor", "Child", "Paladin", "SWAT Officer" };
+        objective = Objectives[Random.Range(0, Objectives.Count)];
+
         GetComponent<Health>().HealthChanged += (oldHealth, newHealth) =>
         {
             healthBar.SetDisplayValue(newHealth);
@@ -115,8 +121,14 @@ public class Player : MonoBehaviour
         //triggering = false;
         controllerNPC.alive = false;
 
-        // Add points
-        score += 100;
+        // Add Points
+        if (objective == triggeringNPC[NPC].transform.parent.name){
+            score += 200;
+        } else {
+            score += 100;
+        }
 
+        // Define new objective
+        objective = Objectives[Random.Range(0, Objectives.Count)];
     }
 }
