@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 0466776e178b0be43a13bb4c661f3fe1
   - enabled: 1
+    path: Assets/Scenes/LevelSelect.unity
+    guid: 29ed69fe98d5cb04daa4b5e8bba65579
+  - enabled: 1
     path: Assets/Scenes/IceTorture.unity
     guid: 6dd3df92bb274a143a4c98f6fe978cc2
   m_configObjects: {}
