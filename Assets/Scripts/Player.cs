@@ -63,12 +63,12 @@ public class Player : MonoBehaviour
                     {
                         deathProtocol("Death_03", entry.Key);
                     }
+                }
 
-                    // Collect Body 
-                    if (Input.GetKeyDown(KeyCode.E) && entry.Value.GetComponent<NpcController>().alive == false)
-                    {
-                        GameObject.Find(entry.Key + "/visual").SetActive(false);
-                    }
+                // Collect Body 
+                if (Input.GetKeyDown(KeyCode.E) && entry.Value.GetComponent<NpcController>().alive == false)
+                {
+                    GameObject.Find(entry.Key + "/visual").SetActive(false);
                 }
             }
         }
@@ -124,11 +124,12 @@ public class Player : MonoBehaviour
         // Add Points
         if (objective == triggeringNPC[NPC].transform.parent.name){
             score += 200;
+            // Define new objective
+            objective = Objectives[Random.Range(0, Objectives.Count)];
         } else {
             score += 100;
         }
-
-        // Define new objective
-        objective = Objectives[Random.Range(0, Objectives.Count)];
+        
+        triggering = false;
     }
 }
