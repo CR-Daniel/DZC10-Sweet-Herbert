@@ -49,24 +49,25 @@ public class Player : MonoBehaviour
                     // Wave
                     entry.Value.GetComponent<Animator>().SetBool("waving", true);
 
-                    if (Input.GetKeyDown(KeyCode.Alpha1))
+                    if (Input.GetKeyDown(KeyCode.Alpha1) && GetComponent<Rigidbody>().velocity.magnitude < 5.00)
                     {
                         deathProtocol("Death_01", entry.Key);
                     }
 
-                    if (Input.GetKeyDown(KeyCode.Alpha2))
+                    if (Input.GetKeyDown(KeyCode.Alpha2) && GetComponent<Rigidbody>().velocity.magnitude < 5.00)
                     {
                         deathProtocol("Death_02", entry.Key);
                     }
 
-                    if (Input.GetKeyDown(KeyCode.Alpha3))
+                    if (Input.GetKeyDown(KeyCode.Alpha3) && GetComponent<Rigidbody>().velocity.magnitude < 5.00)
                     {
                         deathProtocol("Death_03", entry.Key);
                     }
                 }
 
                 // Collect Body 
-                if (Input.GetKeyDown(KeyCode.E) && entry.Value.GetComponent<NpcController>().alive == false)
+                if (Input.GetKeyDown(KeyCode.E)
+                    && entry.Value.GetComponent<NpcController>().alive == false)
                 {
                     GameObject.Find(entry.Key + "/visual").SetActive(false);
                 }
@@ -129,7 +130,7 @@ public class Player : MonoBehaviour
         } else {
             score += 100;
         }
-        
+
         triggering = false;
     }
 }
