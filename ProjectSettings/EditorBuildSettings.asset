@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/IceTorture.unity
     guid: 6dd3df92bb274a143a4c98f6fe978cc2
+  - enabled: 1
+    path: Assets/Scenes/BackStory.unity
+    guid: d31c09eeb0c518044b963e8f8052c9d4
   m_configObjects: {}
