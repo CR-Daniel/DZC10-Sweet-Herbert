@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(AudioSource))]
+
 public class EnemyController : MonoBehaviour
 {
 
@@ -15,6 +17,43 @@ public class EnemyController : MonoBehaviour
     private NavMeshAgent agent;
 
     private bool hasDetonated = false;
+
+    [SerializeField]
+    private AudioSource audioSource;
+    private AudioClip[] clipsAlert;
+
+    private AudioClip[] clipsExplode;
+
+    // Sounds - start
+    private void Awake() {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    private void Alert() {
+        AudioClip clipAlert = GetAlertClip();
+        audioSource.PlayOneShot(clipAlert); 
+    }
+
+    private AudioClip GetAlertClip(){
+        clipsAlert = new AudioClip[]{
+            (AudioClip)Resources.Load("Alert/MetalGear"),
+            (AudioClip)Resources.Load("Alert/EnemySpotted")
+        };
+        return clipsAlert[UnityEngine.Random.Range(0, clipsAlert.Length)];
+    }
+
+    private void Explode() {
+        AudioClip clipsExplode = GetExplodeClip();
+        audioSource.PlayOneShot(clipsExplode);
+    }
+
+    private AudioClip GetExplodeClip() {
+        clipsExplode = new AudioClip[]{
+            (AudioClip)Resources.Load("Explosion/Explode")
+        };
+        return clipsExplode[UnityEngine.Random.Range(0, clipsExplode.Length)];
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +68,8 @@ public class EnemyController : MonoBehaviour
         {
             if (collider.gameObject == target)
             {
-                //TODO spotted effect
+                //alert effect
+                Alert();
                 agent.isStopped = false;
                 alert.SetActive(true);
             }
@@ -55,6 +95,7 @@ public class EnemyController : MonoBehaviour
             if (collider.gameObject == target && !hasDetonated)
             {
                 //TODO explosion sound
+                Explode();
                 SpawnExplosion();
                 target.GetComponent<Health>()?.Damage(1);
 

@@ -47,7 +47,8 @@ public class SoundManager : MonoBehaviour {
             (AudioClip)Resources.Load("Screams/Mario2"),
             (AudioClip)Resources.Load("Screams/Yoda"),
             (AudioClip)Resources.Load("Screams/Oof"),
-            (AudioClip)Resources.Load("Screams/Wilhelm")
+            (AudioClip)Resources.Load("Screams/Wilhelm"),
+            (AudioClip)Resources.Load("Screams/Snake")
         };
         return clipsHurt[UnityEngine.Random.Range(0, clipsHurt.Length)];
     }
@@ -59,10 +60,10 @@ public class SoundManager : MonoBehaviour {
 
     private AudioClip GetRandomClipHey() {
         clipsHey = new AudioClip[] {
-            (AudioClip)Resources.Load("Hey/Lego")
-            // (AudioClip)Resources.Load("Hey/"),
-            // (AudioClip)Resources.Load("Hey/"),
-            // (AudioClip)Resources.Load("Hey/")
+            (AudioClip)Resources.Load("Hey/Lego"),
+            (AudioClip)Resources.Load("Hey/Obi"),
+            (AudioClip)Resources.Load("Hey/hello-lionel"),
+            (AudioClip)Resources.Load("Hey/hello_Adelle")
         };
         return clipsHey[UnityEngine.Random.Range(0, clipsHey.Length)];
     }
