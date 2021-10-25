@@ -74,7 +74,7 @@ public class NpcController : MonoBehaviour
             iceCream.SetActive(false);
 
             // if distance between NPC and PLAYER > 50
-            if (Vector3.Distance(transform.position, player.transform.position) > 20f)
+            if (Vector3.Distance(transform.position, player.transform.position) > 50f)
             {
                 respawn();
             }
