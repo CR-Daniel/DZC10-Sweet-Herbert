@@ -10,11 +10,11 @@ public class ColliderWithCallbacks : MonoBehaviour
     public event Action<Collider> Stay;
     public event Action<Collider> Exit;
 
-    void OnTriggerEnter(Collider other) => Enter(other);
+    void OnTriggerEnter(Collider other) => Enter?.Invoke(other);
 
-    void OnTriggerExit(Collider other) => Exit(other);
+    void OnTriggerExit(Collider other) => Exit?.Invoke(other);
 
-    void OnTriggerStay(Collider other) => Stay(other);
+    void OnTriggerStay(Collider other) => Stay?.Invoke(other);
 
     public void RemoveListeners()
     {

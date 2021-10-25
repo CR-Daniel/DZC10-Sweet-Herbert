@@ -12,7 +12,6 @@ public class HealthBar : MonoBehaviour
     }
 
     public void SetDisplayValue(int value) {
-        Debug.Log($"Setting value to {value}");
 
         foreach (var child in children.Take(value)) {
             child.SetActive(true);

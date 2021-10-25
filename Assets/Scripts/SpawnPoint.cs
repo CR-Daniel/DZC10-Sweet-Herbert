@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
-    public double minDistance = 5.0;
+    public double minDistance = 5;
     public double cooldown = 40;
+    public GameObject awayFromTarget;
+    public double minDistanceFromTarget = 15;
     private double lastUsed = double.NegativeInfinity;
 
     public bool CanSpawn(GameObject obj)
@@ -15,13 +17,19 @@ public class SpawnPoint : MonoBehaviour
             return false;
 
         var existing = GameObject.FindGameObjectsWithTag(obj.tag);
+        float closest;
         if (existing.Count() == 0)
-            return true;
+        {
+            closest = float.PositiveInfinity;
+        }
+        else
+        {
+            closest = existing.Select(o => Vector3.Distance(o.transform.position, transform.position))
+                                  .Min();
+        }
+        var targetDistance = Vector3.Distance(transform.position, awayFromTarget.transform.position);
 
-        var closest = existing.Select(o => Vector3.Distance(o.transform.position, transform.position))
-                              .Min();
-
-        return closest > minDistance;
+        return closest > minDistance && targetDistance > minDistanceFromTarget;
     }
 
     public void Spawn(GameObject obj)

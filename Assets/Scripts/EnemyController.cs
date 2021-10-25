@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -24,6 +25,10 @@ public class EnemyController : MonoBehaviour
 
     private AudioClip[] clipsExplode;
 
+    private GameObject currentTarget;
+
+    public GameObject spawnPoints;
+
     // Sounds - start
     private void Awake() {
         audioSource = GetComponent<AudioSource>();
@@ -42,9 +47,9 @@ public class EnemyController : MonoBehaviour
         return clipsAlert[UnityEngine.Random.Range(0, clipsAlert.Length)];
     }
 
-    private void Explode() {
+    private void Explode(AudioSource source) {
         AudioClip clipsExplode = GetExplodeClip();
-        audioSource.PlayOneShot(clipsExplode);
+        source.PlayOneShot(clipsExplode);
     }
 
     private AudioClip GetExplodeClip() {
@@ -59,8 +64,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.isStopped = true;
-
+        currentTarget = GetClosestSpawnPoint();
         
         initialAggroTrigger = CreateCollider(initialAggroRange);
 
@@ -70,7 +74,7 @@ public class EnemyController : MonoBehaviour
             {
                 //alert effect
                 Alert();
-                agent.isStopped = false;
+                currentTarget = target;
                 alert.SetActive(true);
             }
         };
@@ -82,7 +86,7 @@ public class EnemyController : MonoBehaviour
             if (collider.gameObject == target)
             {
                 //TODO lost effect
-                agent.isStopped = true;
+                currentTarget = GetClosestSpawnPoint();
                 alert.SetActive(false);
             }
         };
@@ -94,9 +98,8 @@ public class EnemyController : MonoBehaviour
         {
             if (collider.gameObject == target && !hasDetonated)
             {
-                //TODO explosion sound
-                Explode();
-                SpawnExplosion();
+                var explosion = SpawnExplosion();
+                Explode(explosion.GetComponent<AudioSource>());
                 target.GetComponent<Health>()?.Damage(1);
 
                 DestroyObject();
@@ -122,13 +125,14 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(target.transform.position);
+        agent.SetDestination(currentTarget.transform.position);
     }
 
-    private void SpawnExplosion()
+    private GameObject SpawnExplosion()
     {
         var exp = Instantiate(explosion, transform.position, Quaternion.identity);
         exp.SetActive(true);
+        return exp;
     }
 
     private ColliderWithCallbacks CreateCollider(int size)
@@ -144,5 +148,10 @@ public class EnemyController : MonoBehaviour
         collider.isTrigger = true;
 
         return obj.AddComponent<ColliderWithCallbacks>();
+    }
+
+    private GameObject GetClosestSpawnPoint() {
+        var spawns = spawnPoints.GetComponentsInChildren<SpawnPoint>().Select(x => x.gameObject).OrderBy(x => Vector3.Distance(x.transform.position, transform.position));
+        return spawns.First();
     }
 }
