@@ -9,7 +9,7 @@ public class Timer : MonoBehaviour
     [SerializeField] private float GameLength;
     [SerializeField] private GameObject GameUI;
     [SerializeField] private GameObject GameOverUI;
-    private float currentTime;
+    public static float currentTime = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +24,6 @@ public class Timer : MonoBehaviour
 
         string minutes = ((int)currentTime / 60).ToString();
         string seconds = (currentTime % 60).ToString("f0");
-
         timerText.text = minutes + ":" + seconds;
 
         if (currentTime <= 0)

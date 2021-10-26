@@ -9,7 +9,7 @@ public class Health : MonoBehaviour
     public int maxHealth;
     public event HealthChangeHandler HealthChanged;
 
-    private int currentHealth;
+    public static int currentHealth;
     // Start is called before the first frame update
     void Start()
     {

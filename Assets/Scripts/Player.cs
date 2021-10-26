@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        score = 0;
         Objectives = new List<string> { "Businessman", "Doctor", "Child", "Paladin", "SWAT Officer" };
         objective = Objectives[Random.Range(0, Objectives.Count)];
 

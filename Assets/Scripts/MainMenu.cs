@@ -30,6 +30,12 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("IceTorture");
     }
 
+    public void SelectIntro()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Intro");
+    }
+
     public void QuitGame()
     {
         Debug.Log("Quit");
