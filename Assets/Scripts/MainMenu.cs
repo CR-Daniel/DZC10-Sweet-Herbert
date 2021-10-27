@@ -30,6 +30,12 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("IceTorture");
     }
 
+    public void SelectDemo2()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("IT_Hard");
+    }
+
     public void SelectIntro()
     {
         Time.timeScale = 1f;

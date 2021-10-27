@@ -7,7 +7,9 @@ public class PauzeMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false; //Can be used for sound change
     public static bool LargeMap = false;
+    public GameObject GameUI;
     public GameObject pauseMenuUI;
+    public GameObject controlsMenu;
 
     // Update is called once per frame
     void Update()
@@ -31,12 +33,15 @@ public class PauzeMenu : MonoBehaviour
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
+        controlsMenu.SetActive(false);
+        GameUI.SetActive(true);
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
 
     void Pause()
     {
+        GameUI.SetActive(false);
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
@@ -46,6 +51,12 @@ public class PauzeMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("IceTorture");
+    }
+
+    public void Restart2()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("IT_Hard");
     }
 
     public void LoadMenu()
