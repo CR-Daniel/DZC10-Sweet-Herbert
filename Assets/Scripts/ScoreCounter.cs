@@ -12,6 +12,6 @@
      }
      
      void Update () {
-         txt.text = "Score : " + Player.score;
+         txt.text = Player.score.ToString();
     }
  }

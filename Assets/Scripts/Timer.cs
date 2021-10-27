@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,11 @@ public class Timer : MonoBehaviour
 
         string minutes = ((int)currentTime / 60).ToString();
         string seconds = (currentTime % 60).ToString("f0");
+        int sec = Convert.ToInt32(seconds);
+        if (sec < 10)
+        {
+            seconds = "0" + seconds;
+        }
         timerText.text = minutes + ":" + seconds;
 
         if (currentTime <= 0)
