@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public static bool triggering;
 
     public static int score = 0;
+    public static int starpoint = 0;
     public static string objective;
     private List<string> Objectives;
     
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         score = 0;
+        starpoint = 0;
         Objectives = new List<string> { "Businessman", "Doctor", "Child", "Paladin", "SWAT Officer" };
         objective = Objectives[Random.Range(0, Objectives.Count)];
 
@@ -123,6 +125,11 @@ public class Player : MonoBehaviour
         //triggering = false;
         controllerNPC.alive = false;
 
+        //Count for star
+        if ("Businessman" == triggeringNPC[NPC].transform.parent.name)
+        {
+            starpoint += 1;
+        }
         // Add Points
         if (objective == triggeringNPC[NPC].transform.parent.name){
             score += 200;
