@@ -50,13 +50,14 @@ public class PauzeMenu : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("IceTorture");
+        SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex ) ;
     }
 
     public void Restart2()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("IT_Hard");
+        SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex ) ;
+
     }
 
     public void LoadMenu()
