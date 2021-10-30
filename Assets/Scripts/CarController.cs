@@ -21,8 +21,8 @@ public class CarController : MonoBehaviour
     public Transform rearRightWheelTransform;
 
     public float maxSteeringAngle = 30f;
-    public float motorForce = 50f;
-    public float brakeForce = 0f;
+    public float motorForce = 1000f;
+    public float brakeForce = 9000f;
 
 
     private void FixedUpdate()

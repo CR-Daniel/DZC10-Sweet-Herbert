@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 
     public static int score = 0;
     public static int starpoint = 0;
+    public static int starpoint_hard = 0;
     public static string objective;
     private List<string> Objectives;
     
@@ -22,6 +23,8 @@ public class Player : MonoBehaviour
     {
         score = 0;
         starpoint = 0;
+        starpoint_hard = 0;
+        Time.timeScale = 1f;
         Objectives = new List<string> { "Businessman", "Doctor", "Child", "Paladin", "SWAT Officer" };
         objective = Objectives[Random.Range(0, Objectives.Count)];
 
@@ -66,13 +69,6 @@ public class Player : MonoBehaviour
                     {
                         deathProtocol("Death_03", entry.Key);
                     }
-                }
-
-                // Collect Body 
-                if (Input.GetKeyDown(KeyCode.E)
-                    && entry.Value.GetComponent<NpcController>().alive == false)
-                {
-                    GameObject.Find(entry.Key + "/visual").SetActive(false);
                 }
             }
         }
@@ -129,6 +125,10 @@ public class Player : MonoBehaviour
         if ("Businessman" == triggeringNPC[NPC].transform.parent.name)
         {
             starpoint += 1;
+        }
+        if ("SWAT Officer" == triggeringNPC[NPC].transform.parent.name)
+        {
+            starpoint_hard += 1;
         }
         // Add Points
         if (objective == triggeringNPC[NPC].transform.parent.name){
