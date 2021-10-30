@@ -24,6 +24,12 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("BackStory");
     }
 
+    public void SelectShop()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Shop");
+    }
+
     public void SelectDemo()
     {
         Time.timeScale = 1f;
