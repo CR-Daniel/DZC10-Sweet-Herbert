@@ -10,8 +10,8 @@ public class EnemyController : MonoBehaviour
 {
 
     public GameObject target, explosion;
-    public int initialAggroRange, maintainAggroRange, detonateRange;
-    public ColliderWithCallbacks initialAggroTrigger, maintainAggroTrigger, detonateTrigger;
+    public float initialAggroRange, maintainAggroRange, detonateRange;
+    private ColliderWithCallbacks initialAggroTrigger, maintainAggroTrigger, detonateTrigger;
 
     public GameObject alert;
 
@@ -28,6 +28,10 @@ public class EnemyController : MonoBehaviour
     private GameObject currentTarget;
 
     public GameObject spawnPoints;
+
+    private double targetEntered = double.PositiveInfinity;
+
+    public double detonateTimer;
 
     // Sounds - start
     private void Awake() {
@@ -96,7 +100,19 @@ public class EnemyController : MonoBehaviour
 
         detonateTrigger.Enter += (collider) =>
         {
-            if (collider.gameObject == target && !hasDetonated)
+            if (collider.gameObject == target && double.IsInfinity(targetEntered)) {
+                targetEntered = Time.timeAsDouble;
+            }
+        };
+
+        detonateTrigger.Exit += (collider) => {
+            if (collider.gameObject == target) {
+                targetEntered = double.PositiveInfinity;
+            }
+        };
+
+        detonateTrigger.Stay += (collider) => {
+            if (collider.gameObject == target && Time.timeAsDouble >= (detonateTimer + targetEntered) && !hasDetonated)
             {
                 var explosion = SpawnExplosion();
                 Explode(explosion.GetComponent<AudioSource>());
@@ -135,7 +151,7 @@ public class EnemyController : MonoBehaviour
         return exp;
     }
 
-    private ColliderWithCallbacks CreateCollider(int size)
+    private ColliderWithCallbacks CreateCollider(float size)
     {
         var mainCollider = GetComponent<BoxCollider>();
         var obj = new GameObject();
