@@ -50,7 +50,9 @@ public class Player : MonoBehaviour
             {
                 // do something with entry.Value or entry.Key
 
-                if (triggering)
+                controllerNPC = triggeringNPC[entry.Key].GetComponent<NpcController>();
+
+                if (controllerNPC.alive == true)
                 {
                     // Wave
                     entry.Value.GetComponent<Animator>().SetBool("waving", true);
@@ -78,8 +80,6 @@ public class Player : MonoBehaviour
     {
         if (collider.gameObject.tag == "NPC")
         {
-            triggering = true;
-
             // if NPC not in list yet, add it
             if (!triggeringNPC.ContainsKey(collider.gameObject.name))
             {
@@ -98,7 +98,6 @@ public class Player : MonoBehaviour
                 triggeringNPC[collider.gameObject.name].GetComponent<Animator>().SetBool("waving", false);
             }
 
-            triggering = false;
             triggeringNPC.Remove(collider.gameObject.name);
         }
     }
@@ -138,7 +137,5 @@ public class Player : MonoBehaviour
         } else {
             score += 100;
         }
-
-        triggering = false;
     }
 }
