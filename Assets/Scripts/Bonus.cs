@@ -11,6 +11,6 @@
      }
      
      void Update () {
-         txt.text = "Bonus Objective : Kill a " + Player.objective + "!";
+         txt.text = "Bonus: Sell Ice Cream to a " + Player.objective + "!";
     }
  }
