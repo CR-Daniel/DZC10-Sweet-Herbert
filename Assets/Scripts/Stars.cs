@@ -11,7 +11,10 @@ public class Stars : MonoBehaviour
 
     void OnEnable()
     {
-        if (Health.currentHealth == 3 || Health.currentHealth == 2 || Health.currentHealth == 1)
+        Debug.Log(Health.currentHealth);
+        Debug.Log(Timer.currentTime);
+
+        if (Timer.currentTime <= 0)
         {
             Star1.color = new Color32(255, 255, 225, 255);
         }
