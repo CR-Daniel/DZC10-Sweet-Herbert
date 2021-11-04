@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
         Time.timeScale = 1f;
         Objectives = new List<string> { "Businessman", "Doctor", "Child", "Paladin", "SWAT Officer" };
         objective = Objectives[Random.Range(0, Objectives.Count)];
+        triggeringNPC.Clear();
 
         GetComponent<Health>().HealthChanged += (oldHealth, newHealth) =>
         {
